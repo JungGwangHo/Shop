@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^$', views.login),
     url(r'^login/', views.login, name = 'login'),
     url(r'^register/', views.register),
+    url(r'^user/register/$', views.UserCreateView.as_view, name='register'),
+    url(r'^user/register/complete/$', views.UserCreateDone.as_view, name='register_done')
 ]
