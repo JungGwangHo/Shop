@@ -6,8 +6,8 @@ from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.forms import UserCreationForm
+from django.core.urlresolvers import reverse
+from jgh.form import CreateUserForm
 # Create your views here.
 def login(request): 
      if request.method=='POST':
@@ -19,11 +19,20 @@ def login(request):
         return render(request, 'jgh/login.html', {})        
 
 def register(request):
-       return render(request, 'jgh/register.jsp', {})
-class UserCreateView(CreateView):
-    template_name = 'jgh/register.jsp'
-    form_class = UserCreationForm
-    success_url = reverse_lazy('register_done')
+       return render(request, 'jgh/register.html', {})
+def register_done(request):
+       return render(request, 'jgh/register_done.html', {})
+def UserCreateView(request):
+    if request.method == "POST":
+        userform = CreateUserForm(request.POST)
+        if userform.is_valid():
+            userform.save()
+            return HttpResponseRedirect(
+                redirect('register_done.html')
+            )
+    elif request.method == "GET":
+        userform = CreateUserForm()
+        return render(request, 'jgh/register.html', {'form':userform,})    
 class UserCreateDone(TemplateView):
     template_name = 'jgh/register_done.html'    
         

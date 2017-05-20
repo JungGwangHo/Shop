@@ -16,12 +16,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from jgh import views
+from jgh.views import UserCreateView, UserCreateDone
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.login),
     url(r'^login/', views.login, name = 'login'),
-    url(r'^register/', views.register),
-    url(r'^user/register/$', views.UserCreateView.as_view, name='register'),
-    url(r'^user/register/complete/$', views.UserCreateDone.as_view, name='register_done')
+    url(r'^register/complete/', views.register_done),
+    url(r'^user/register/$', views.UserCreateView, name='register'),
+    url(r'^user/register/complete/$', UserCreateDone.as_view(), name='register_done')
 ]
